@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopee Order Processing</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">PRIVATE WORKSPACE</p>
+        <h1>Shopee Order Processing</h1>
+        <p class="subhead">Upload the Inventory Database once, then drop each order file to process it.</p>
+      </div>
+      <div id="dbPill" class="status-pill pending"><span class="dot"></span><span>Inventory not uploaded</span></div>
+    </header>
+
+    <section class="upload-grid">
+      <article class="panel">
+        <div class="step">01</div>
+        <h2>Inventory Database</h2>
+        <p class="muted">Upload your current Inventory Excel or CSV. The latest upload replaces the saved database.</p>
+        <label class="dropzone" id="inventoryDrop" for="inventoryFile">
+          <input id="inventoryFile" type="file" accept=".xlsx,.xls,.csv">
+          <span class="upload-icon">▤</span>
+          <strong>Drop Inventory file here</strong>
+          <span class="muted small">or click to browse · XLSX, XLS, CSV · max 25 MB</span>
+          <span id="inventoryFilename" class="file-name">No file selected</span>
+        </label>
+        <button id="uploadInventory" class="button secondary" disabled>Upload / Replace Inventory</button>
+        <p id="inventoryMessage" class="message" aria-live="polite"></p>
+      </article>
+
+      <article class="panel">
+        <div class="step">02</div>
+        <h2>Order File</h2>
+        <p class="muted">Upload a Shopee order export. The app reads the Raw sheet if present, otherwise the first worksheet.</p>
+        <label class="dropzone" id="orderDrop" for="orderFile">
+          <input id="orderFile" type="file" accept=".xlsx,.xls,.csv">
+          <span class="upload-icon">⇧</span>
+          <strong>Drop Order file here</strong>
+          <span class="muted small">or click to browse · XLSX, XLS, CSV · max 25 MB</span>
+          <span id="orderFilename" class="file-name">No file selected</span>
+        </label>
+        <button id="processOrders" class="button primary" disabled>Process Orders</button>
+        <p id="processMessage" class="message" aria-live="polite"></p>
+      </article>
+    </section>
+
+    <section id="results" class="panel results-panel hidden">
+      <div class="results-head">
+        <div>
+          <p class="eyebrow">PROCESSING OUTPUT</p>
+          <h2>Consolidated Results</h2>
+          <p id="resultMeta" class="muted"></p>
+        </div>
+        <div class="actions">
+          <button id="copyAll" class="button primary">Copy All</button>
+          <button id="copyMatched" class="button secondary">Copy Matched Only</button>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="table-tools">
+        <input id="searchBox" type="search" placeholder="Search product, order, SKU…">
+        <label class="check-label"><input id="includeHeaders" type="checkbox"> Include column headers when copying</label>
+      </div>
+      <div class="table-wrap">
+        <table id="resultTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="footnote">The blank spacer column is intentionally preserved for your existing paste workflow. Matched SKU is taken from the Inventory Database Item Code; unmatched items remain blank.</p>
+    </section>
+
+    <footer>
+      <span>Single-user private instance</span>
+      <span>Order uploads are processed in memory and are not retained.</span>
+    </footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
